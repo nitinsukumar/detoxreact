@@ -10,15 +10,18 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "randomcolor": "^0.5.4",
     "react": "16.9.0",
-    "react-native": "0.61.2"
+    "react-native": "0.61.2",
+    "react-swipeable-views-native": "^0.13.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/runtime": "^7.6.2",
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-jest": "^24.9.0",
-    "detox": "^14.4.0",
+    "detox": "^14.9.2",
+    "detox-recorder": "^1.0.151",
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
@@ -33,13 +36,13 @@
         "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
         "build": "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
-        "name": "Nexus_4_API_23"
+        "name": "Pixel4XL"
       },
       "android.emu.release": {
         "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
         "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
         "type": "android.emulator",
-        "name": "Nexus_4_API_23"
+        "name": "Pixel4XL"
       }
     },
     "test-runner": "jest"
