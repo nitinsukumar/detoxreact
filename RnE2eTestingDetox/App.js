@@ -1,143 +1,130 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, { useState } from 'react';
+import React, {Fragment} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar,
   TextInput,
   Button,
-  ActivityIndicator
+  StatusBar,
 } from 'react-native';
 
 import {
-  Colors
+  Header,
+  LearnMoreLinks,
+  Colors,
+  DebugInstructions,
+  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import randomColor from 'randomcolor';
+import SwipeableViews from 'react-swipeable-views-native';
 
-const LOGIN_STATUS = {
-  NOT_LOGGED_IN: -1,
-  LOGGING_IN: 0,
-  LOGGED_IN: 1
-};
+const Slide = ({children}) => (
+  <View
+    style={[
+      styles.slide,
+      {backgroundColor: randomColor({luminosity: 'light'})},
+    ]}>
+    {children}
+  </View>
+);
 
-
-const App: () => React$Node = () => {
-  const [loginData, setLoginData] = useState({
-    username: '',
-    password: ''
-  });
-
-  const [loginStatus, setLoginStatus] = useState(LOGIN_STATUS.NOT_LOGGED_IN);
-
-  const onLoginDataChange = (key) => {
-    return (value) => {
-      const newLoginData = Object.assign({}, loginData);
-      newLoginData[key] = value;
-      setLoginData(newLoginData);
-    };
-  };
-
-  const onLoginPress = () => {
-    setLoginStatus(LOGIN_STATUS.LOGGING_IN);
-    setTimeout(() => {
-      setLoginStatus(LOGIN_STATUS.LOGGED_IN);
-    }, 1500);
-  };
-
+const App = () => {
   return (
-    <>
+    <Fragment>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          {
-            loginStatus === LOGIN_STATUS.LOGGED_IN ?
-              <View testID="dashboardView">
-                <Text style={styles.heading} testID="dashboardHeadingText">
-                  Hello {loginData.username}
+          <Header />
+          {global.HermesInternal == null ? null : (
+            <View style={styles.engine}>
+              <Text style={styles.footer}>Engine: Hermes</Text>
+            </View>
+          )}
+
+          <View style={styles.body}>
+            <SwipeableViews testID="slides">
+              <Slide>
+                <Text style={styles.sectionTitle}>Step One</Text>
+                <Text style={styles.sectionDescription}>
+                  Edit <Text style={styles.highlight}>App.js</Text> to change
+                  this screen and then come back to see your edits.
                 </Text>
-                <Text style={[styles.link, styles.mt12]}>
-                  Edit your profile
+              </Slide>
+              <Slide>
+                <Text style={styles.sectionTitle}>See Your Changes</Text>
+                <Text style={styles.sectionDescription}>
+                  <ReloadInstructions />
                 </Text>
-              </View>
-              :
-              <View testID="loginView">
-                <Text style={styles.heading}>Please Login</Text>
-                <Text style={styles.mt12}>Username</Text>
+              </Slide>
+              <Slide>
+                <Text style={styles.sectionTitle}>Debug</Text>
+                <Text style={styles.sectionDescription}>
+                  <DebugInstructions />
+                </Text>
+                <Button onPress={() => alert('Clicked!')} title="Click here!" />
+              </Slide>
+              <Slide>
+                <Text style={styles.sectionTitle}>Learn More</Text>
                 <TextInput
-                  style={[styles.textInput, styles.mt12]}
-                  placeholder={'Enter your username'}
-                  onChangeText={onLoginDataChange('username')}
-                  value={loginData.username}
-                  testID="usernameInput"
-                />
-                <Text style={styles.mt12}>Password</Text>
-                <TextInput
-                  secureTextEntry
-                  style={[styles.textInput, styles.mt12, styles.mb12]}
-                  placeholder={'Enter your password'}
-                  onChangeText={onLoginDataChange('password')}
-                  value={loginData.password}
-                  testID="passwordInput"
-                />
-                <Button
-                  title="Login"
-                  onPress={onLoginPress}
-                  testID="loginButton"
-                />
-                {
-                  loginStatus === LOGIN_STATUS.LOGGING_IN ?
-                    <ActivityIndicator style={styles.mt12} />
-                    : null
-                }
-              </View>
-          }
+                  testID="docsInput"
+                  multiline
+                  style={styles.sectionDescription}>
+                  Read the docs to discover what to do next:
+                </TextInput>
+              </Slide>
+            </SwipeableViews>
+
+            <LearnMoreLinks />
+          </View>
         </ScrollView>
       </SafeAreaView>
-    </>
+    </Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   scrollView: {
+    backgroundColor: Colors.lighter,
+  },
+  engine: {
+    position: 'absolute',
+    right: 0,
+  },
+  body: {
     backgroundColor: Colors.white,
-    padding: 16
   },
-  heading: {
-    textAlign: 'center',
-    fontSize: 18
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: Colors.black,
   },
-  textInput: {
-    borderColor: Colors.lighter,
-    borderWidth: 1,
-    borderRadius: 4,
-    paddingLeft: 10,
-    paddingTop: 4,
-    paddingRight: 4,
-    paddingBottom: 4
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+    color: Colors.dark,
   },
-  mt12: {
-    marginTop: 12
+  highlight: {
+    fontWeight: '700',
   },
-  mb12: {
-    marginBottom: 12
+  footer: {
+    color: Colors.dark,
+    fontSize: 12,
+    fontWeight: '600',
+    padding: 4,
+    paddingRight: 12,
+    textAlign: 'right',
   },
-  link: {
-    color: '#3543bf'
-  }
+  slide: {
+    padding: 24,
+    height: 200,
+    display: 'flex',
+    justifyContent: 'center',
+  },
 });
 
 export default App;
